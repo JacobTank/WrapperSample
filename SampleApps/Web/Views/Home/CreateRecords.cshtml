@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Web.Models.AddressModel>
+@{
+    ViewData["Title"] = "Create Records";
+}
+
+
+<h4>Sample App - Create Records</h4>
+<p>
+    The CreateRecordsAsync method is used to create records in MinistryPlatform.  Here are some examples for usage:
+</p>
+<div id="editor">
+
+    // Create Single Record or Multiple
+    AddressModel model = new AddressModel()
+    {
+        Address_Line_1 = "Test Address Line 1",
+        City = "Test City",
+        State_Region = "AK"
+    };
+
+    List<AddressModel> records = new List<AddressModel>();
+    records.Add(model);
+
+    var model = await _api.CreateRecordsAsync<AddressModel>("Addresses", records);
+
+</div>
+<br clear="all" />
+
+<h5>Sample Data / Address Created</h5>
+<div>
+    <table border="1" style="width: 100%">
+        <tr>
+            <th>Address_ID</th>
+            <th>Address Line 1</th>
+            <th>City</th>
+            <th>State</th>
+        </tr>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.Address_ID</td>
+                <td>
+                    @a.Address_Line_1
+                </td>
+                <td>
+                    @a.City
+                </td>
+                <td>@a.State_Region</td>
+            </tr>
+        }
+    </table>
+</div>
+
+<br clear="all" />
+
+<h5>Additional References</h5>
+<ul>    
+    <li>REST API Overview => <a target="_blank" href="http://www.thinkministry.com/kb/develop/rest-api/">http://www.thinkministry.com/kb/develop/rest-api/</a></li>
+</ul>

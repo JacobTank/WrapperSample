@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Web.Models.AddressModel>
+@{
+    ViewData["Title"] = "Get Records";
+}
+
+
+<h4>Sample App - Get Records</h4>
+<p>
+    The GetRecordAsync and GetRecordsAsync methods can be used with a target model to cast results to a generic recordset model can be
+    returned with data in key/value pairings.  You can find several examples presented in the controller and here for reference.
+</p>
+<div id="editor">
+        // Get Top 5 Addresses Filtered By Postal_Code / Skip First 10
+        // Example Output Below
+        var addresses = await _api.GetRecordsAsync<AddressModel>(
+                table: "Addresses",
+                top: 5,
+                skip: 10,
+                filter: "Postal_Code IS NOT NULL AND [State/Region] IS NOT NULL",
+                select: "Addresses.*",
+                orderBy: "Postal_Code");
+
+        // Get Top 5 Addresses
+        var addresses = await _api.GetRecordsAsync<AddressModel>(
+            table: "Addresses",
+            top: 5);
+
+        // More Complex Select with specific fields
+        var addresses = await _api.GetRecordsAsync<AddressModel>(
+            table: "Addresses",
+            top: 5,
+            skip: 10,
+            filter: "Postal_Code IS NOT NULL",
+            select: "Addresses.*",
+            orderBy: "Postal_Code");
+
+        // Single Record - Load Address with Address_ID=1
+        var record = await _api.GetRecordAsync<AddressModel>("Addresses", 1);
+
+        // Complex Count with GroupBy and Having
+        var count = await _api.GetRecordsAsync(
+            table: "Addresses",
+            filter: "Postal_Code IS NOT NULL",
+            select: "COUNT(Addresses.Postal_Code) AS RecordCount, Addresses.Postal_Code AS Zip",
+            groupBy: "Postal_Code",
+            having: "COUNT(Addresses.Postal_Code) > 1000");
+
+        // Single Record Complex SELECT (Using _table notation)
+        var contactData = await _api.GetRecordAsync(
+            table: "Contacts",
+            id: 1,
+            select: "Contacts.*, Household_ID_Table.*, Household_ID_Table_Address_ID_Table.*");
+
+</div>
+<br clear="all" />
+
+<h5>Sample Data</h5>
+<div>
+    <table border="1" style="width: 100%">
+        <tr>
+            <th>Address Line 1</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Postal Code</th>
+        </tr>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>
+                    @a.Address_Line_1
+                </td>
+                <td>
+                    @a.City
+                </td>
+                <td>@a.State_Region</td>
+                <td>@a.Postal_Code</td>
+            </tr>
+        }
+    </table>
+</div>
+
+<br clear="all" />
+
+<h5>Additional References</h5>
+<ul>
+    <li>Table Lookup Conventions => <a target="_blank" href="http://www.thinkministry.com/kb/ministryplatform/extending/table-lookup-convention/">http://www.thinkministry.com/kb/ministryplatform/extending/table-lookup-convention/</a></li>
+    <li>REST API Overview => <a target="_blank" href="http://www.thinkministry.com/kb/develop/rest-api/">http://www.thinkministry.com/kb/develop/rest-api/</a></li>
+</ul>

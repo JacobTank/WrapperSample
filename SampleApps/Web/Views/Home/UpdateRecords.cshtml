@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Web.Models.AddressModel>
+@{
+    ViewData["Title"] = "Update Records";
+}
+
+
+<h4>Sample App - Update Records</h4>
+<p>
+    The UpdateRecordsAsync method is used to create records in MinistryPlatform.  Here are some examples for usage:
+</p>
+<div id="editor">
+    // Load Record
+    var model = await _api.GetRecordAsync<AddressModel>("Addresses", 935752);
+
+    // Modify Property
+    model.Address_Line_1 = "Updated Address Line 1";
+
+    // Prepare a List for Update
+    List<AddressModel> recordUpdates = new List<AddressModel>();
+    recordUpdates.Add(model);
+
+    // Process the Update
+    var addressUpdates = await _api.UpdateRecordsAsync<AddressModel>("Addresses", recordUpdates);
+
+</div>
+<br clear="all" />
+
+<h5>Sample Data / Address Updated</h5>
+<div>
+    <table border="1" style="width: 100%">
+        <tr>
+            <th>Address_ID</th>
+            <th>Address Line 1</th>
+            <th>City</th>
+            <th>State</th>
+        </tr>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.Address_ID</td>
+                <td>
+                    @a.Address_Line_1
+                </td>
+                <td>
+                    @a.City
+                </td>
+                <td>@a.State_Region</td>
+            </tr>
+        }
+    </table>
+</div>
+
+<br clear="all" />
+
+<h5>Additional References</h5>
+<ul>
+    <li>REST API Overview => <a target="_blank" href="http://www.thinkministry.com/kb/develop/rest-api/">http://www.thinkministry.com/kb/develop/rest-api/</a></li>
+</ul>

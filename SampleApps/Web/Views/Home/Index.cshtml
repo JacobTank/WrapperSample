@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div>
+    <h1 class="display-4">Welcome</h1>
+    <h3>Sample App - Wrapper Basics</h3>
+    <p>
+        The MinistryPlatform API Wrapper simplifies the development process for .NET software developers.  This Nuget package
+        allows rapid development against the API and provides a sound starting point for development.  This web application
+        provides several standard samples to assist in getting started.
+    </p>
+        <h5>Initialize the Wrapper</h5>
+
+        <div id="editor">
+            // Created in the constructor
+            _api = PowerServiceClientFactory.CreateAsync(
+                new Uri(_configuration["mp.ApiBaseUrl"]),
+                _configuration["mp.client"],
+                _configuration["mp.secret"]).Result;
+
+            // Created elsewhere with await
+            _api = await PowerServiceClientFactory.CreateAsync(
+                new Uri(_configuration["mp.ApiBaseUrl"]),
+                _configuration["mp.client"],
+                _configuration["mp.secret"]);
+        </div>   
+</div>
