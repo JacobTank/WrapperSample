@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -34,18 +35,18 @@ namespace Web.Controllers
 
         public async Task<IActionResult> GetRecords()
         {
-            var count = await _api.GetRecordsAsync(
-                table: "Addresses",
-                filter: "Postal_Code IS NOT NULL",
-                select: "COUNT(Addresses.Postal_Code) AS RecordCount, Addresses.Postal_Code AS Zip",
-                groupBy: "Postal_Code",
-                having: "COUNT(Addresses.Postal_Code) > 1000"
-                );
+            //var count = await _api.GetRecordsAsync(
+            //    table: "Addresses",
+            //    filter: "Postal_Code IS NOT NULL",
+            //    select: "COUNT(Addresses.Postal_Code) AS RecordCount, Addresses.Postal_Code AS Zip",
+            //    groupBy: "Postal_Code",
+            //    having: "COUNT(Addresses.Postal_Code) > 1000"
+            //    );
 
-            var contactData = await _api.GetRecordAsync(
-                table: "Contacts",
-                id: 1,
-                select: "Contacts.*, Household_ID_Table.*, Household_ID_Table_Address_ID_Table.*");
+            //var contactData = await _api.GetRecordAsync(
+            //    table: "Contacts",
+            //    id: 1,
+            //    select: "Contacts.*, Household_ID_Table.*, Household_ID_Table_Address_ID_Table.*");
 
             // Get Top 5 Addresses and return as model
             return View(
@@ -89,6 +90,11 @@ namespace Web.Controllers
             return View(addressUpdates);
         }
 
+        [Authorize]
+        public async Task<IActionResult> TestAuthentication()
+        {
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
