@@ -90,12 +90,6 @@ namespace Web.Controllers
             return View(addressUpdates);
         }
 
-        [Authorize]
-        public async Task<IActionResult> TestAuthentication()
-        {
-            return View();
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
